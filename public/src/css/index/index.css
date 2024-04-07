@@ -1,0 +1,575 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+@media (min-width: 768px) {
+  .main-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
+  /* Aside o left  */
+  .main-content aside {
+    width: 25%;
+    height: 100%;
+    background-color: var(--Background);
+  }
+  /* Title APP */
+  .main-content aside .title-app {
+    width: 100%;
+    height: 10%;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+  .title-app > h1 {
+    font-size: 1.5625rem;
+    font-family: Roboto-Medium;
+  }
+  /* Menu aside */
+  .main-content aside .menu-aside {
+    width: 100%;
+    height: 30%;
+    padding: 2rem 0 0 2rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+  .menu-aside > p {
+    font-size: 1rem;
+    font-family: Roboto-Medium;
+  }
+  .opt-aside {
+    margin: 0.5rem 0;
+    width: 100%;
+    height: 2.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+  }
+  .opt-aside > p {
+    font-size: 1rem;
+    font-family: Roboto-Medium;
+    margin: 0 0 0 1rem;
+  }
+  #active {
+    width: 100%;
+    border-right: 2.5px solid;
+    border-color: var(--PrimaryColor);
+    color: var(--PrimaryColor);
+  }
+  /* Library aside */
+  .main-content aside .library-aside {
+    width: 100%;
+    height: 30%;
+    padding: 2rem 0 0 2rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+  .library-aside > p {
+    font-size: 1rem;
+    font-family: Roboto-Medium;
+  }
+  /* Playlist aside */
+  .main-content aside .playlist-aside {
+    width: 100%;
+    height: 30%;
+    padding: 2rem 0 0 2rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+  }
+  .playlist-aside > p {
+    font-size: 1rem;
+    font-family: Roboto-Medium;
+  }
+  /* Right side */
+  .main-content .main {
+    width: 75%;
+    height: 100%;
+  }
+  /* Header */
+  .main > header {
+    width: 100%;
+    height: 10%;
+  }
+  /* Nav */
+  .main > header nav {
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  /* Left nav */
+  nav .left-nav {
+    width: 35%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  nav .left-nav p {
+    font-size: 0.95rem;
+    font-family: Roboto-Bold;
+    margin: 0 0 0 1rem;
+    color: var(--Outline);
+    cursor: pointer;
+  }
+  #header-active {
+    color: var(--PrimaryColor);
+  }
+  /* Center nav */
+  nav .center-nav {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  nav .center-nav span {
+    margin: 5px 0;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    background: transparent;
+    border: 1px solid var(--Outline);
+  }
+  .center-nav-icon {
+    font-size: 1.3rem;
+    margin: 0 0.5rem;
+  }
+  nav .center-nav span input[type="search"] {
+    width: auto;
+    height: 100%;
+    border: none;
+    background: transparent;
+    color: var(--PrimaryColor);
+    font-family: Roboto-Regular;
+  }
+  nav .center-nav span input[type="search"]:focus {
+    outline: none;
+    color: var(--PrimaryColor);
+  }
+  /* Right nav */
+  nav .right-nav {
+    width: 35%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .nav-right-icon {
+    font-size: 1.5rem;
+    color: var(--Outline);
+    cursor: pointer;
+    margin: 0 1rem 0 0;
+  }
+  .nav-right-icon:hover {
+    color: var(--PrimaryColor);
+  }
+  .right-nav > .user-photo {
+    width: 40%;
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-image: linear-gradient(
+      rgba(0, 0, 0, 0.007),
+      rgba(195, 12, 79, 0.226)
+    );
+    border-radius: 5px;
+  }
+  .user-photo > img {
+    width: 32px;
+    height: 32px;
+    border-radius: 5px;
+    margin: 0 5px 0 10px;
+    background-color: var(--Secondary);
+  }
+  .user-photo > p {
+    font-size: 0.95rem;
+    font-family: Roboto-Medium;
+    color: var(--PrimaryColor);
+  }
+  /* Main */
+  .main > main {
+    width: 100%;
+    height: 90%;
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  /* Home section */
+  .main > main .home-content {
+    width: 100%;
+    height: 100%;
+  }
+  .home-content > p {
+    font-size: 1rem;
+    font-family: Roboto-Regular;
+    color: var(--PrimaryColor);
+  }
+  /* Card */
+  .home-content .card-trending-songs {
+    width: 100%;
+    height: 40%;
+    background-image: linear-gradient(
+        rgba(0, 0, 0, 0.007),
+        rgba(195, 12, 79, 0.226)
+      ),
+      url("https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/cb/42/12/cb4212e0-62ac-7ed7-ecf6-9f268d9a80f8/190296801198.jpg/1200x1200bb.jpg");
+
+    background-size: contain;
+    background-position: right;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    margin: 1rem 0;
+  }
+  .card-trending-songs > span {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 1.5rem;
+  }
+  .card-trending-songs > span h1 {
+    font-size: 3rem;
+    font-family: Roboto-Bold;
+    color: var(--PrimaryColor);
+  }
+  .card-trending-songs > span p {
+    font-size: 1rem;
+    font-family: Roboto-Medium;
+    color: var(--PrimaryColor);
+  }
+  /* Card container */
+  .card-container {
+    width: 100%;
+    height: 53%;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+  /* Cards */
+  .card-container .cards {
+    width: 60%;
+    height: 100%;
+  }
+  .cards > p {
+    font-size: 1rem;
+    font-family: Roboto-Regular;
+    color: var(--PrimaryColor);
+  }
+  /* Artist */
+  .cards .artists {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(195, 12, 79, 0.11);
+    border-radius: 5px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .artists > p {
+    font-size: 1rem;
+    font-family: Roboto-Medium;
+    writing-mode: vertical-lr;
+    color: var(--PrimaryColor);
+    text-align: center;
+    cursor: pointer;
+    transform: rotate(180deg);
+    user-select: none;
+  }
+  .artists > p:hover {
+    color: var(--OnPrimaryColor);
+  }
+  .artists .artist-grid {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(0, 1fr);
+  }
+  .artist-grid .artist-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .artist-card > img {
+    width: 80px;
+    height: 80px;
+    border-radius: 20%;
+    margin: 0.5rem 0;
+  }
+  .artist-card > p {
+    font-size: 0.9rem;
+    font-family: Roboto-Medium;
+    color: var(--PrimaryColor);
+  }
+  /* Cards Bottom */
+  .cards .cards-bottom {
+    width: 100%;
+    margin: 10px 0;
+    height: 63%;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+  }
+  /* Genres card */
+  .cards-bottom .genres {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .genres > span {
+    width: 100%;
+    height: 15%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .genres > span p {
+    font-size: 1rem;
+    font-family: Roboto-Regular;
+    color: var(--PrimaryColor);
+    margin: 0 5px;
+  }
+  #more-genres {
+    cursor: pointer;
+  }
+  /* Genres Grid */
+  .genres .genre-grid {
+    width: 100%;
+    height: 85%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 5px;
+  }
+  .genre-grid .genre-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--Background);
+    border-radius: 10px;
+  }
+  .genre-card > p {
+    font-size: 0.9rem;
+    font-family: Roboto-Regular;
+    color: var(--OnPrimaryContainer);
+  }
+
+  /* Chart card */
+  .cards-bottom .top-charts {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .top-charts > span {
+    width: 100%;
+    height: 15%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .top-charts > span p {
+    font-size: 1rem;
+    font-family: Roboto-Regular;
+    color: var(--PrimaryColor);
+    margin: 0 5px;
+  }
+  .top-charts .top-charts-grid {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--PrimaryContainer);
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--PrimaryColor);
+    border-radius: 5px;
+  }
+  /* Chart card */
+  .top-charts-grid .chart-card {
+    width: 100%;
+    height: 75px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    padding: 0.5rem;
+    box-sizing: border-box;
+  }
+  /* Chart card info */
+  .chart-card .chart-info {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .chart-card > img {
+    width: 68px;
+    height: 68px;
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+  .chart-info > p {
+    font-size: 0.9rem;
+    font-family: Roboto-Regular;
+    color: var(--PrimaryColor);
+    margin: 0 5px;
+  }
+  /* Chart card buttons */
+  .chart-card .chart-icons {
+    width: 30.91%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .chart-icons > p {
+    font-size: 0.9rem;
+    font-family: Roboto-Regular;
+    color: var(--PrimaryColor);
+    margin: 0 5px;
+  }
+  /* Player rigth */
+  .card-container .player-rigth {
+    width: 40%;
+    height: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: var(--Background);
+    border-radius: 10px;
+  }
+  .player-rigth > span {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    box-sizing: border-box;
+  }
+  .player-rigth > span p {
+    font-size: 1rem;
+    font-family: Roboto-Regular;
+    color: var(--PrimaryColor);
+  }
+  /* Player Info */
+  .player-info {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .player-info > img {
+    width: 128px;
+    height: 128px;
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+  .player-info > h2 {
+    font-size: 1.4rem;
+    font-family: Roboto-Medium;
+    color: var(--PrimaryColor);
+    margin: 5px 0 0 0;
+  }
+  .player-info > p {
+    font-size: 0.9rem;
+    font-family: Roboto-Regular;
+    color: var(--PrimaryColor);
+    margin: 5px 0;
+  }
+  /* Progress */
+  .player-info > span {
+    width: 100%;
+    height: 40%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+    box-sizing: border-box;
+  }
+  .player-info > span p {
+    font-size: 0.9rem;
+    font-family: Roboto-Regular;
+    color: var(--PrimaryColor);
+    margin: 0 5px;
+  }
+  .player-info > span > .player-progress {
+    width: 100%;
+    height: 5px;
+    background-color: var(--PrimaryColor);
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .player-progress > .progress-bar {
+    width: 0;
+    height: 100%;
+    background-color: var(--Secondary);
+    border-radius: 5px;
+  }
+  /* Player Control */
+  .player-controls {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    background-color: var(--PrimaryColor);
+    border-radius: 10px;
+  }
+  .player-icon {
+    font-size: 1.5rem;
+    color: var(--OnPrimaryColor);
+    cursor: pointer;
+  }
+}

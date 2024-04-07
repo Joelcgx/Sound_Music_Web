@@ -1,0 +1,8 @@
+# area de trabajo
+/**.code-workspace
+# node modules
+/node_modules
+# Coniguraciones de Visual Studio Code
+.vscode
+# archivos de configuración
+private/src/server/php/conf/hosts.json
