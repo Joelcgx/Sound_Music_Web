@@ -238,7 +238,7 @@ body {
         rgba(0, 0, 0, 0.007),
         rgba(195, 12, 79, 0.226)
       ),
-      url("https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/cb/42/12/cb4212e0-62ac-7ed7-ecf6-9f268d9a80f8/190296801198.jpg/1200x1200bb.jpg");
+      url("");
 
     background-size: contain;
     background-position: right;
@@ -411,6 +411,9 @@ body {
     color: var(--PrimaryColor);
     margin: 0 5px;
   }
+  #more-charts {
+    cursor: pointer;
+  }
   .top-charts .top-charts-grid {
     width: 100%;
     height: 100%;
@@ -546,14 +549,14 @@ body {
   .player-info > span > .player-progress {
     width: 100%;
     height: 5px;
-    background-color: var(--PrimaryColor);
+    background-color: var(--Outline);
     border-radius: 5px;
     cursor: pointer;
   }
   .player-progress > .progress-bar {
     width: 0;
     height: 100%;
-    background-color: var(--Secondary);
+    background-color: var(--PrimaryColor);
     border-radius: 5px;
   }
   /* Player Control */
@@ -570,6 +573,114 @@ body {
   .player-icon {
     font-size: 1.5rem;
     color: var(--OnPrimaryColor);
+    cursor: pointer;
+  }
+  /* Content menu side or more options and see more */
+
+  .content-menu-side {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    backdrop-filter: blur(4px);
+    border-radius: 10px;
+    border: 1px solid var(--Outline);
+    display: none;
+    /* display: flex; */
+    flex-direction: column;
+    overflow: hidden;
+  }
+  /* Menu */
+  .content-menu-side .menu {
+    width: 100%;
+    height: 10%;
+  }
+  .menu > .menu-items {
+    width: 100%;
+    height: 100%;
+    background-color: var(--Background);
+    background-image: linear-gradient(
+      rgba(0, 0, 0, 0.007),
+      rgba(195, 12, 79, 0.226)
+    );
+    border-radius: 10px 10px 0 0;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .menu-items > p {
+    font-size: 1rem;
+    font-family: Roboto-Medium;
+    color: var(--PrimaryColor);
+  }
+  .menu-items > span {
+    font-size: 1.5rem;
+    color: var(--PrimaryColor);
+    cursor: pointer;
+  }
+  /* Content */
+  .content-menu-side .content-center {
+    width: 100%;
+    height: 80%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  /* Content Songs */
+  .content-center .songs-content {
+    width: 100%;
+    height: 100%;
+    background-color: var(--Background);
+    border-radius: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  /* GRID */
+  .songs-content > .songs-grid {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5px;
+  }
+  /* SONG CARD */
+  .songs-grid .song-card {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .song-card > img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  .song-card > p {
+    font-size: 0.9rem;
+    font-family: Roboto-Regular;
+    color: var(--PrimaryColor);
+  }
+  .song-card > span {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.3rem;
+    color: var(--PrimaryColor);
     cursor: pointer;
   }
 }

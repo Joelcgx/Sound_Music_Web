@@ -105,7 +105,9 @@ include_once('/Website/private/src/server/php/login/checkLogedUser.php');
                         <!-- User photo -->
                         <div class="user-photo" title="Usuario">
                             <img src="/public/src/assets/cover.svg" alt="user">
-                            <p><?php echo $_COOKIE["UserNameWavem"] ?></p>
+                            <p><?php if (isset($_COOKIE["UserNameWavem"])) {
+                                    echo $_COOKIE["UserNameWavem"];
+                                } ?></p>
                         </div>
                     </div>
                 </nav>
@@ -114,12 +116,13 @@ include_once('/Website/private/src/server/php/login/checkLogedUser.php');
             <main>
                 <!-- Home -->
                 <div class="home-content">
-                    <p>Musica Muy Escuchada</p>
+                    <p>La Cancion mas Escuchada</p>
                     <!-- Card main -->
                     <div class="card-trending-songs">
                         <span>
-                            <h1>10 Segundos</h1>
-                            <p>Natanael Cano</p>
+                            <h1 id="top-title">10 Segundos</h1>
+                            <p id="top-artist">Natanael Cano</p>
+                            <p>Reproducciones</p>
                         </span>
 
                     </div>
@@ -172,7 +175,7 @@ include_once('/Website/private/src/server/php/login/checkLogedUser.php');
                                 <div class="top-charts">
                                     <span>
                                         <p>Top Canciones</p>
-                                        <p>Ver mas</p>
+                                        <p id="more-charts">Ver mas</p>
                                     </span>
                                     <!-- GRID -->
                                     <div class="top-charts-grid">
@@ -232,13 +235,43 @@ include_once('/Website/private/src/server/php/login/checkLogedUser.php');
             </main>
         </div>
     </div>
+    <!-- Content menu side -->
+    <div class="content-menu-side">
+        <!-- Content -->
+        <div class="menu">
+            <div class="menu-items">
+                <p id="menu-title">Canciones</p>
+                <span>
+                    <iconify-icon icon='material-symbols:close' class='close-menu'></iconify-icon>
+                </span>
+            </div>
+        </div>
+        <!-- Content -->
+        <div class="content-center">
+            <!-- Canciones -->
+            <div class="songs-content">
+                <!-- Canciones Grid -->
+                <div class="songs-grid">
+                    <!-- Card -->
+                    <!-- <div class="song-card">
+                        <img src="https://e-cdns-images.dzcdn.net/images/cover/6b1b5e9c9f4b9c7f2b4c0b6a6d8f9a5f/100x100-000000-80-0-0.jpg" alt="">
+                        <p>Title</p>
+                        <p>Artist</p>
+                        <span>
+                            <iconify-icon icon='material-symbols:play-circle' class='play-icon' title="Play"></iconify-icon>
+                            <iconify-icon icon='material-symbols:add-box' class='' title="Add"></iconify-icon>
+                        </span>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Iconify -->
     <script src="/public/src/js/webpack/iconify.js"></script>
     <!-- Jquery and Scripts -->
     <script src="/node_modules/jquery/dist/jquery.js"></script>
     <script type="module" src="/public/src/js/Player/player.js"></script>
     <script src="/public/src/js/Player/playSong.js"></script>
-    <script src="https://www.googleapis.com/customsearch/v1?key=AIzaSyC97887Z58r53V_NBf-a8fEEutWjLkYCic&cx=017576662512468239146:omuauf_lfve&q=cars&callback=hndlr" />
 </body>
 
 </html>

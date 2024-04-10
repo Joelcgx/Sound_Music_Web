@@ -28,7 +28,7 @@ function play(path: string) {
       // Play Count
       setTimeout(() => {
         $.ajax({
-          url: "http://localhost:8080/playCount",
+          url: "http://192.168.100.168:8080/playCount",
           dataType: "json",
           data: {
             title: data[5],

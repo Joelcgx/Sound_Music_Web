@@ -46,6 +46,39 @@ export function handle_artist_image(artistName) {
         }
     });
 }
+export function handle_most_played() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const response = yield get_most_played_fromDB();
+            return response;
+        }
+        catch (error) {
+            return error;
+        }
+    });
+}
+export function handle_cover(Title) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const response = yield get_cover(Title);
+            return response;
+        }
+        catch (error) {
+            return error;
+        }
+    });
+}
+export function handle_songs_async(start, end) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const response = yield get_songs_async(start, end);
+            return response;
+        }
+        catch (error) {
+            return error;
+        }
+    });
+}
 // AJAX requests
 /**
  * La función `get_music_index` realiza una solicitud AJAX a un controlador PHP para recuperar una
@@ -98,6 +131,63 @@ function get_artist_image(artistName) {
             data: {
                 function: "get_artist_image",
                 artist: artistName,
+            },
+            success: (data) => {
+                return resolve(data);
+            },
+            error: (Error) => {
+                return reject(Error);
+            },
+        });
+    });
+}
+function get_most_played_fromDB() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "/private/src/server/php/handler/handler.php",
+            type: "GET",
+            dataType: "json",
+            data: {
+                function: "get_most_played",
+            },
+            success: (data) => {
+                return resolve(data);
+            },
+            error: (Error) => {
+                return reject(Error);
+            },
+        });
+    });
+}
+function get_cover(title) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "/private/src/server/php/handler/handler.php",
+            type: "GET",
+            dataType: "json",
+            data: {
+                function: "get_Cover",
+                song: title,
+            },
+            success: (data) => {
+                return resolve(data);
+            },
+            error: (Error) => {
+                return reject(Error);
+            },
+        });
+    });
+}
+function get_songs_async(start, end) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "/private/src/server/php/handler/handler.php",
+            type: "GET",
+            dataType: "json",
+            data: {
+                function: "get_songs_async",
+                start: start,
+                end: end,
             },
             success: (data) => {
                 return resolve(data);

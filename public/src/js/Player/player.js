@@ -7,12 +7,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { get_songs, handle_artist, handle_artist_image, } from "../request/get.js";
+import { get_songs, handle_artist, handle_artist_image, handle_cover, handle_most_played, handle_songs_async, } from "../request/get.js";
 $(() => {
     IndexSongsMain();
+    // Set Timeout for 1.5 seconds
     setTimeout(() => {
         index_artists();
     }, 1500);
+    setTimeout(() => {
+        mostPlayed();
+    }, 1000);
+    setTimeout(() => {
+        listeners_init();
+    }, 100);
 });
 /**
  * La función `IndexSongsMain` recupera datos de canciones, las clasifica aleatoriamente y crea
@@ -60,7 +67,7 @@ function index_artists() {
     const xhttp = (data) => __awaiter(this, void 0, void 0, function* () {
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: "http://localhost:8080/uploadArtist",
+                url: "http://192.168.100.168:8080/uploadArtist",
                 type: "GET",
                 dataType: "json",
                 data: {
@@ -113,11 +120,126 @@ function set_UI(image, Artist) {
             if (artistImage) {
                 const artistCard = `
               <div class="artist-card">
-              <img src="data:image/webp;base64,${artistImage.Cover}" alt="" id="artist-img">
+              <img src="data:image/webp;base64,${artistImage.Cover}" alt="" id="artist-img" label="${Artist}" title="${Artist}" lazyload>
               <p>${Artist}</p>
               </div>
               `;
                 artistGrid.append(artistCard);
+            }
+        });
+    }
+}
+// Lo mas reproducido
+function mostPlayed() {
+    // Use async func
+    handle_most_played()
+        .then((res) => {
+        if (typeof res === "object" && res !== null) {
+            const { Album, Artist, Played, Title } = res;
+            handle_cover(Title)
+                .then((coverResponse) => {
+                if (typeof coverResponse === "object" && coverResponse !== null) {
+                    const { Cover } = coverResponse;
+                    const mostPlayedDiv = $(".card-trending-songs");
+                    mostPlayedDiv.css("background-image", `linear-gradient(
+                rgba(0, 0, 0, 0.007),
+                rgba(195, 12, 79, 0.226)
+              ),
+              url("data:image/webp;base64,${Cover}")`);
+                }
+            })
+                .catch((CoverErr) => {
+                console.error("Error", CoverErr);
+            });
+            $("#top-title").text(Title);
+            $("#top-artist").text(Artist);
+        }
+    })
+        .catch((err) => {
+        console.error("Error", err);
+    });
+}
+function listeners_init() {
+    const container = $(".content-menu-side");
+    const songsBtn = $("#more-charts");
+    const closeMenu = $(".close-menu");
+    const songsGrid = $(".songs-grid");
+    let menuShow = false;
+    let ajaxRequested = false;
+    // songs btn
+    songsBtn.on("click", () => {
+        container.toggle();
+        if (container.is(":visible")) {
+            menuShow = true;
+            // close btn
+            closeMenu.on("click", () => {
+                container.hide();
+            });
+            if (menuShow === true && !ajaxRequested) {
+                handle_songs_async()
+                    .then((res) => {
+                    if (Array.isArray(res)) {
+                        res.forEach((song) => {
+                            const { Album, Artist, Cover, Title, Path } = song;
+                            const songCard = `
+                 <div class="song-card">
+                  <img src="data:image/webp;base64,${Cover}" alt="">
+                  <p>${Title}</p>
+                  <p>${Artist}</p>
+                  <h6 style="display: none">${Path}</h6>
+                  <span>
+                  <iconify-icon icon='material-symbols:play-circle' class='play-icon' title="Play"></iconify-icon>
+                  <iconify-icon icon='material-symbols:add-box' class='' title="Add"></iconify-icon>
+                  </span>
+                 </div>`;
+                            songsGrid.append(songCard);
+                        });
+                    }
+                    ajaxRequested = true; // Marcar que la solicitud AJAX se ha realizado
+                    addScrollListener(songsGrid); // Agregar el evento de escucha del scroll después de cargar las canciones
+                })
+                    .catch((err) => {
+                    console.error("Error", err);
+                });
+            }
+        }
+    });
+    let start = 0;
+    let end = 15;
+    let allSongsLoaded = false; // Variable para controlar si se han cargado todas las canciones
+    function addScrollListener(songsGrid) {
+        const songsContent = document.querySelector(".songs-content");
+        songsContent.addEventListener("scroll", (event) => {
+            if (songsContent.scrollTop + songsContent.clientHeight >=
+                songsContent.scrollHeight &&
+                !allSongsLoaded // Verificar si ya se han cargado todas las canciones
+            ) {
+                start = end;
+                end += 6;
+                handle_songs_async(start, end).then((res) => {
+                    if (res.length > 0) {
+                        if (Array.isArray(res)) {
+                            res.forEach((song) => {
+                                const { Album, Artist, Cover, Title, Path } = song;
+                                const songCard = `
+                <div class="song-card">
+                  <img src="data:image/webp;base64,${Cover}" alt="">
+                  <p>${Title}</p>
+                  <p>${Artist}</p>
+                  <h6 style="display: none">${Path}</h6>
+                  <span>
+                   <iconify-icon icon='material-symbols:play-circle' title="Play"></iconify-icon>
+                   <iconify-icon icon='material-symbols:add-box' class='' title="Add"></iconify-icon>
+                  </span>
+                </div>`;
+                                songsGrid.append(songCard);
+                            });
+                        }
+                    }
+                    else {
+                        allSongsLoaded = true; // Actualizar la variable para indicar que no hay más canciones
+                    }
+                });
             }
         });
     }

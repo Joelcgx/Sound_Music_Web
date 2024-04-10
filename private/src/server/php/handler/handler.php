@@ -30,7 +30,7 @@ function get_songs_index(): string
             $end = $_GET['end'];
         } else {
             $start = 0;
-            $end = 6;
+            $end = 16;
         }
 
         $Files = ftp_nlist($FTP, './');
@@ -210,6 +210,124 @@ function get_artist_image(): string
         }
         return json_encode($coversIndex);
     } catch (Throwable $th) {
+        return json_encode(['error' => $th->getMessage()]);
+    }
+}
+
+function get_most_played(): string
+{
+    include_once '../class/conn.php';
+    try {
+        $ConnDB = Connections::Mysql();
+        $sql = "SELECT * FROM songs ORDER BY counts DESC LIMIT 1;";
+
+        $stmt = $ConnDB->query($sql);
+
+        if ($stmt) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (!$row) {
+                return json_encode(['error' => 'Could not get most played']);
+            }
+        }
+        return json_encode([
+            "Title" => $row["title"],
+            "Artist" => $row["artist"],
+            "Album" => $row["album"],
+            "Playeds" => $row["counts"]
+        ]);
+    } catch (\Throwable $th) {
+        return json_encode(['error' => $th->getMessage()]);
+    }
+}
+
+function get_Cover()
+{
+    include_once '../class/conn.php';
+    include_once '../class/getid3/getid3.php';
+    $ok = false;
+    try {
+        $FTP = Connections::Ftp();
+        $getID3 = new getID3();
+        $songTitle = $_GET['song'];
+        $searchFiles = ftp_nlist($FTP, '*' . $songTitle . '*');
+        if (!empty($searchFiles)) {
+            $searchFiles = array_filter($searchFiles, function ($file) {
+                return pathinfo($file, PATHINFO_EXTENSION) == "mp3";
+            });
+
+            if (ftp_get($FTP, "../temp/mostPlayed/" . $searchFiles[0], "./" . $searchFiles[0], FTP_BINARY)) {
+                $FileInfo = $getID3->analyze("../temp/mostPlayed/" . $searchFiles[0]);
+                if ($FileInfo["comments"]["picture"][0]["data"]) {
+                    $cover  = base64_encode($FileInfo["comments"]["picture"][0]["data"]);
+                }
+            }
+            unlink("../temp/mostPlayed/" . $searchFiles[0]);
+        }
+
+        return json_encode([
+            "Cover" => $cover
+        ]);
+    } catch (\Throwable $th) {
+        return json_encode(['error' => $th->getMessage()]);
+    }
+}
+
+function get_songs_async(): string
+{
+    include_once '../class/conn.php';
+    include_once '../class/getid3/getid3.php';
+    try {
+        // Get ID3
+        $getID3 = new getID3();
+        // Inciar conexión FTP
+        $FTP = Connections::Ftp();
+        // Get songs index
+        if (isset($_GET['start']) && isset($_GET['end'])) {
+            $start  = $_GET['start'];
+            $end    = $_GET['end'];
+        } else {
+            $start  = 0;
+            $end    = 15;
+        }
+        $Files = ftp_nlist($FTP, './');
+        $musicFiles = array_filter($Files, function ($file) {
+            return pathinfo($file, PATHINFO_EXTENSION) == "mp3";
+        });
+        $musicIndex = [];
+        $initFiles = array_slice($musicFiles, $start, $end);
+        foreach ($initFiles as $files) {
+            $localPath = "../temp/" . $files;
+            $remotePath = "./" . $files;
+
+            // Get song info
+            if (ftp_get($FTP, $localPath, $remotePath, FTP_BINARY)) {
+                $FileInfo = $getID3->analyze($localPath);
+                if (!empty($FileInfo)) {
+                    if (isset($FileInfo["comments"]["picture"])) {
+                        $musicIndex[] = [
+                            "Title" => $FileInfo["id3v2"]["comments"]["title"][0],
+                            "Artist" => $FileInfo["id3v2"]["comments"]["artist"][0],
+                            "Album" => $FileInfo["id3v2"]["comments"]["album"][0],
+                            "Cover" => base64_encode($FileInfo["comments"]["picture"][0]["data"]),
+                            "Path" => str_replace("././", "./", $remotePath),
+                        ];
+                    } else {
+                        $musicIndex[] = [
+                            "Title" => $FileInfo["id3v2"]["comments"]["title"][0],
+                            "Artist" => $FileInfo["id3v2"]["comments"]["artist"][0],
+                            "Album" => $FileInfo["id3v2"]["comments"]["album"][0],
+                            "Cover" => base64_encode(""),
+                            "Path" => str_replace("././", "./", $remotePath),
+                        ];
+                    }
+                }
+            }
+            unlink($localPath);
+        }
+        //Temp Files Folder
+        $Temp = "../temp/";
+        return json_encode($musicIndex);
+    } catch (\Throwable $th) {
         return json_encode(['error' => $th->getMessage()]);
     }
 }
